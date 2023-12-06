@@ -1,0 +1,96 @@
+<!doctype html>
+<!--
+ Copyright 2021 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<html>
+<head>
+  <title>Trading Algorithm Optimizer</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Trading Algorithm Optimizer</h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/analyze">Analyze</a>
+    </nav>
+  <div class="background-container">
+    <br>
+    <div class="inputs">
+      <table class="inputtable">
+        <tr>
+          <td colspan="3" class="centered">
+            <h2>New Optimization</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="inputheader">
+            <h3>Stock</h3>
+            <label for="ticker">Ticker:<input id="ticker" name="ticker" value="SPY" pattern="[A-Za-z0-9]+"/></label>
+            <label for="startdate">Start Date:<input id="startdate" name="startdate" type="date" value="2011-01-01"/></label>
+            <label for="enddate">End Date:<input id="enddate" name="enddate" type="date" value="2023-05-01"/></label>
+          </td>
+          <td class = "inputheader">
+            <h3>Optimization</h3>
+            <label for="populationsize">Population:<input id="populationsize" name="populationsize" type="number" step="1" pattern="\d+" title="Please enter an integer" value="10"/></label>
+            <label for="generations">Generations:<input id="generations" name="generations" type="number" step="1" pattern="\d+" title="Please enter an integer" value="10"/></label>
+          </td>
+          <td class="inputheader" style="display: flex; flex-direction: column; align-items: center;">
+            <h3>Algorithms</h3>
+            {% for label in labels %}
+              <label for="algo{{ loop.index }}"><input type="checkbox" id="algo{{ loop.index }}" name="algo{{ loop.index }}" checked>{{ label }}</label><br>
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="centered">
+            <button class="run" onclick="runOptimization()">Run Optimization</button><br>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <div class="inputs">
+      <table class="inputtable">
+        <tr>
+          <td colspan="3" class="centered">
+            <h2>Past Optimizations</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="centered">
+          <select class="run" id="optimization-list">
+            <option id="selection" selected value=""></option>
+          </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="centered">
+          <button class="run" id="exist" onclick="loadOptimization()">Get Optimization</button>
+          </td>
+        </tr>
+        </table>
+    </div>
+    <div style="padding-top:40px;padding-bottom:40px;" id="response-inputs"></div>
+    <div class="results" id="response-results"></div>
+  </div>
+</body>
+</html>
