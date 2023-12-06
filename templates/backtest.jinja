@@ -1,0 +1,58 @@
+<ul class="algorithm-links">
+  {% for algoname, algovalues in data.items() %}
+    <li><a href="#{{ algoname }}">{{ algoname }}</a></li>
+  {% endfor %}
+</ul>
+<table class = "resultstable">
+{% for algoname, algovalues in data.items() %}
+    <tr id="{{ algoname }}"><td colspan="2" style="font-size: 200%;text-align: center; padding-top: 20px;" >{{algoname}}</td></tr>
+    <tr id="{{ algoname+"description" }}"><td colspan="2" style="font-size: 125%;text-align: center;font-style: italic">{{algovalues['description']}}</td></tr>
+    {% for index, values in algovalues['results'].items() %}
+        {% for sub_index, sub_values in values.items() %}
+            <tr>
+                <td style="padding-top: 20px;">Optimized Run Index: {{ index }}</td>
+            </tr>
+            <tr>
+                <td>Inputs</td>
+                <td>
+                    {% for input in sub_values["inputs"] %}
+                        {{ input }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>Exposure Time (%)</td>
+                <td>{{ sub_values["Exposure Time (%)"] }}</td>
+            </tr>
+            <tr>
+                <td>Equity Final ($)</td>
+                <td>{{ sub_values["Equity Final ($)"] }}</td>
+            </tr>
+            <tr>
+                <td>Return (%)</td>
+                <td>{{ sub_values["Return (%)"] }}</td>
+            </tr>
+            <tr>
+                <td>Volatility (%)</td>
+                <td>{{ sub_values["Volatility (%)"] }}</td>
+            </tr>
+            <tr>
+                <td>Max Drawdown (%)</td>
+                <td>{{ sub_values["Max Drawdown (%)"] }}</td>
+            </tr>
+            <tr>
+                <td>Avg Drawdown (%)</td>
+                <td>{{ sub_values["Avg Drawdown (%)"] }}</td>
+            </tr>
+            <tr>
+                <td># Trades</td>
+                <td>{{ sub_values["# Trades"] }}</td>
+            </tr>
+            <tr>
+                <td>Win Rate (%)</td>
+                <td>{{ sub_values["Win Rate (%)"] }}</td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+</table>

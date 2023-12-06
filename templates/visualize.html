@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Menu and Sample Graph</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='visualize.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <header>
+        <h1>Trading Algorithm Optimizer</h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/analyze">Analyze</a>
+    </nav>
+
+    <main>
+        <div class="dropdown-section">
+            <button type="button" id="updateResultsButton" onclick="handleUpdateResults()">Update Processed Results</button>
+            <h2>Analyze Results</h2>
+            <div class="dropdown-container">
+                <form action="/graph" method="get" id="graphForm">
+                    <label for="type">Select Chart Type:</label>
+                    <select name="type" id="type" onchange="handlePlotTypeChange()">
+                        <option value="ParamReturn">ParamReturn</option>
+                        <option value="DrawdownReturn">DrawdownReturn</option>
+                        <option value="Features">Features</option>
+                        <option value="TradesReturn">TradesReturn</option>
+                    </select>
+
+                    <label for="ticker">Select Ticker:</label>
+                    <select name="ticker" id="ticker">
+                        {% for ticker in unique_tickers %}
+                            <option value="{{ ticker }}">{{ ticker }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="strategy">Select Strategy</label>
+                    <select name="strategy" id="strategy">
+                        <option value="Exp/Con">Exp/Con</option>
+                        <option value="Acceleration">Acceleration</option>
+                        <option value="Breakout">Breakout</option>
+                        <option value="Velocity">Velocity</option>
+                    </select>
+
+                <button type="submit">Go</button>
+
+                </form>
+            </div>
+        </div>
+
+        <div id="graphContainer"></div>
+
+        <script>
+        document.getElementById('graphForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            handleAnalyzeFormSubmit(event.target);
+        });
+        </script>
+    </main>
+</body>
+</html>
