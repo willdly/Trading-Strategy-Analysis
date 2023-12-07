@@ -17,19 +17,21 @@
 
 ## Cloud Installation Instructions
 
-We recommend deploying the program by using Elastic Beanstalk (EB) on Amazon
-Web Services.
-
-* Modify credentials.py with MongoDB server configuration.
-    * Whitelist IP address in MongoDB and allow connections to applications
-* Zip source code, including server configuration file found in
-.platform/nginx/conf.d subdirectory.
-* When configuring EB application, choose Load Balanced as the environment
-type in the capacity section of Step 4: Configure instance traffic and scaling.
-* After EB application and environment are launched, go to the application's
-load balancer in the EC2 console and modify Idle timeout attribute to 4000.
-* Use program by going to EB application domain in browser.
-
+* In AWS console, Create a new Elastic Beanstalk Application
+* Create a new environment for this application
+   * Select Web Server Environment 
+   * Select Python as the managed platform
+   * For Application Code, select “upload your code”, and upload the .zip file containing the contents of the program
+   * Create a new service role to be used (or select an existing one as applicable)
+   * Create a new instance profile to be used (or select an existing one as applicable)
+   * Skip Step 3 (networking, database, and tags)
+   * In Step 4, select Load Balanced as the environment type, and increase the min/max number of instances as desired
+* After creating the environment, navigate to IAM > Roles, and ensure that the service role and instance profile used in the above step have the following roles added to them: 
+   * AdministratorAccess-AWSElasticBeanstalk
+   * AWSElasticBeanstalkManagedUpdatesCustomerRolePolicy	
+   * AWSElasticBeanstalkMulticontainerDocker
+   * AWSElasticBeanstalkWorkerTier
+* Go to EC2 > Load Balancers, select the load balancer being used, then in the dropdown menu, select Edit Load Balancer Attributes. Here, modify the idle timeout to 4000. This allows the front end to stop from automatically timing out on longer optimization runs.
 
 ## Usage Instructions
 
